@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>contactEmailRot13</key>
+	<string></string>
+	<key>contactName</key>
+	<string>Kelvin Sherlock</string>
+	<key>description</key>
+	<string>Miscellaneous Apple II BASIC dialects.</string>
+	<key>name</key>
+	<string>BASIC</string>
+	<key>uuid</key>
+	<string>66C85DF0-E5F1-4EB2-8E79-7BB29DE7ECA4</string>
+</dict>
+</plist>
