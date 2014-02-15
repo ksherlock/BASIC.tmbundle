@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>GSoft Folding</string>
+	<key>scope</key>
+	<string>source.gsoft</string>
+	<key>settings</key>
+	<dict>
+		<key>foldingStartMarker</key>
+		<string>(?i)^\s*(TYPE\b|IF\b.*\bTHEN\b|FOR\b|WHILE\b|DO\b|SELECT\b)</string>
+		<key>foldingStopMarker</key>
+		<string>(?i)^\s*(END\b|NEXT\b|WEND\b|LOOP\b)</string>
+	</dict>
+	<key>uuid</key>
+	<string>E4FFB872-4077-4188-B204-2AB1A23409F9</string>
+</dict>
+</plist>
