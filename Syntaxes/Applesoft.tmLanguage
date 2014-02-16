@@ -120,7 +120,7 @@
 		</dict>
 		<dict>
 			<key>comment</key>
-			<string>uses non-greedy *? so keywords </string>
+			<string>uses non-greedy *? so keywords get a first shot</string>
 			<key>match</key>
 			<string>[A-Za-z][A-Za-z0-9]*?\s*[$%]?</string>
 			<key>name</key>
