@@ -19,6 +19,30 @@
 			<string>entity.name.function</string>
 		</dict>
 		<dict>
+			<key>captures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.function</string>
+				</dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>variable.parameter</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>(?i:def\s*fn)\s*([A-Za-z_][A-Za-z0-9_]*)\s*[(]\s*([A-Za-z_][A-Za-z0-9_]*)\s*[)]</string>
+			<key>name</key>
+			<string>meta.def.fn</string>
+		</dict>
+		<dict>
 			<key>begin</key>
 			<string>"</string>
 			<key>end</key>
@@ -78,7 +102,13 @@
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>(?i:abs|sgn|int|sqr|sin|cos|tan|atn|exp|log|rnd|def|fn)</string>
+			<string>(?i:def|fn)</string>
+			<key>name</key>
+			<string>keyword.function</string>
+		</dict>
+		<dict>
+			<key>match</key>
+			<string>(?i:abs|sgn|int|sqr|sin|cos|tan|atn|exp|log|rnd)</string>
 			<key>name</key>
 			<string>support.function.arithmetic</string>
 		</dict>
@@ -90,7 +120,7 @@
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>(?i:at|gr|color=|plot|hlin|vlin|hgr2|hgr|hcolor=|hplot|draw|xdraw|scale=|rot=|shload)</string>
+			<string>(?i:at|gr|color=|plot|hlin|vlin|hgr2|hgr|hcolor=|hplot|draw|xdraw|scale=|rot=)</string>
 			<key>name</key>
 			<string>keyword.graphics</string>
 		</dict>
