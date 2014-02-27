@@ -3,7 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>fileTypes</key>
-	<array/>
+	<array>
+		<string>b</string>
+	</array>
 	<key>name</key>
 	<string>MD-BASIC</string>
 	<key>patterns</key>
