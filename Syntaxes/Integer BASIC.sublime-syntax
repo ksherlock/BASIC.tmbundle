@@ -8,13 +8,20 @@ contexts:
   main:
     - match: ^\d+
       scope: entity.name.function.line-number
-    - match: \b(?i:rem).*$
-      scope: comment.line
+    - match: \b(?i:rem)
+      push:
+        - meta_scope: comment.line
+        - match: '\n'
+          pop: true
+
     - match: '"'
+      scope: punctuation.definition.string.begin
       push:
         - meta_scope: string.quoted.double
         - match: '"'
+          scope: punctuation.definition.string.end
           pop: true
+
     - match: '\b(?i:goto|if|then|for|to|step|next|gosub|return|pop|stop|con|end)(?![$])\b'
       scope: keyword.control
     - match: '\b(?i:list)(?![$])\b'

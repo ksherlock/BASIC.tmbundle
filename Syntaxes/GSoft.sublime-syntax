@@ -24,13 +24,21 @@ contexts:
       captures:
         0: keyword.function
         1: entity.name.function
+
     - match: '"'
+      scope: punctuation.definition.string.begin
       push:
         - meta_scope: string.quoted.double
         - match: '"'
+          scope: punctuation.definition.string.end
           pop: true
-    - match: '!.*$|\b(?i:rem)\b.*$'
-      scope: comment.line
+
+    - match: '!.*$|\b(?i:rem)\b'
+      push:
+        - meta_scope: comment.line
+        - match: '\n'
+          pop: true
+
     - match: '(\d+\.\d*|\.\d+|\d+)([eE][+-]?\d+)?'
       scope: constant.numeric
     - match: '\$[A-Fa-f0-9]+'

@@ -25,28 +25,35 @@ contexts:
       scope: constant.numeric.hex.md-basic
     - match: '\d+|\d*\.\d*([eE][+-]?\d+)?'
       scope: constant.numeric
+
     - match: "'"
-      push:
-        - meta_scope: comment.line.md-basic
-        - match: \n
-          pop: true
+      push: comment
     - match: '\b(?i:rem)(?![%$])\b'
-      push:
-        - meta_scope: comment.line
-        - match: \n
-          pop: true
+      push: comment
+
     - match: "`"
+      scope: punctuation.definition.string.begin
       push:
         - meta_scope: string.quoted.raw
         - match: "`"
+          scope: punctuation.definition.string.end
           pop: true
+
     - match: '"'
+      scope: punctuation.definition.string.begin
       push:
-        - meta_scope: string.quoted.double.md-basic
-        - match: '"'
-          pop: true
+        - meta_scope: string.quoted.double
+
         - match: '\^.'
           scope: constant.character.escape.md-basic
+        - match: '$'
+          scope: invalid.illegal
+          pop: true
+        - match: '"'
+          scope: punctuation.definition.string.end
+          pop: true
+
+
     - match: '\b(?i:goto|onerr|on|if|then|for|to|step|next|gosub|return|pop|resume|stop|del|end|wait)(?![%$])\b'
       scope: keyword.control
     - match: '\b((?i)do|else|endif|loop|repeat|until|wend|while)(?![%$])\b'
@@ -84,45 +91,50 @@ contexts:
       scope: keyword.operator.logical
     - match: '\b(?i:true|false|__mdbasic__)(?![%$])\b'
       scope: constant.language.md-basic
-    - match: ^\s*#\s*(include)\s+
+
+
+
+    - match: ^\s*(#\s*include)\b
       captures:
         1: keyword.control.import.include.md-basic
       push:
-        - meta_scope: meta.preprocessor.md-basic.include
-        - match: (?=(?://|/\*))|$
-          captures:
-            1: keyword.control.import.include.md-basic
-          pop: true
-        - match: (?>\\\s*\n)
-          scope: punctuation.separator.continuation.md-basic
+        - meta_scope: meta.preprocessor.include.md-basic
         - match: '"'
-          captures:
-            0: punctuation.definition.string.begin.md-basic
-          push:
+          scope: punctuation.definition.string.begin.md-basic
+          set:
             - meta_scope: string.quoted.double.include.md-basic
             - match: '"'
-              captures:
-                0: punctuation.definition.string.end.md-basic
+              scope: punctuation.definition.string.end.md-basic
               pop: true
-        - match: <
-          captures:
-            0: punctuation.definition.string.begin.md-basic
-          push:
+
+        - match: '<'
+          scope: punctuation.definition.string.begin.md-basic
+          set:
             - meta_scope: string.quoted.other.lt-gt.include.md-basic
-            - match: ">"
-              captures:
-                0: punctuation.definition.string.end.md-basic
+            - match: '>'
+              scope: punctuation.definition.string.end.md-basic
               pop: true
-    - match: '^\s*#\s*(define)\s*([A-Za-z_][A-Za-z_0-9]*)'
+
+        - match: '\S+'
+          scope: invalid.illegal
+          pop: true
+
+    - match: '^\s*(#\s*define)\s*([A-Za-z_][A-Za-z_0-9]*)'
       scope: meta.preprocessor.macro.md-basic
       captures:
         1: keyword.control.import.define.md-basic
         2: entity.name.function.preprocessor.md-basic
+
     - match: ^\s*#\s*(?i:declare|define|else|endif|error|if|ifdef|ifndef|include|pragma|print|reserve)\b
       scope: meta.preprocessor
+
     - match: '&\s*([A-Za-z_][A-Za-z0-9_]*)'
       scope: support.function.ampersand
     - match: "[A-Za-z_][A-Za-z0-9_]*[$%]?"
       comment: uses non-greedy *? so keywords get a first shot
       scope: variable
 
+  comment:
+    - meta_scope: comment.line
+    - match: \n
+      pop: true

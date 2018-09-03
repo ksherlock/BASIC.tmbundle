@@ -14,13 +14,21 @@ contexts:
       captures:
         0: keyword.control
         1: support.function
+
     - match: '"'
+      scope: punctuation.definition.string.begin
       push:
         - meta_scope: string.quoted.double
         - match: '"'
+          scope: punctuation.definition.string.end
           pop: true
-    - match: \b(?i:rem)\b.*$
-      scope: comment.line
+
+    - match: \b(?i:rem)\b
+      push:
+        - meta_scope: comment.line
+        - match: '\n'
+          pop: true
+
     - match: \d+
       scope: constant.numeric
     - match: \b(?i:CALL|END|FOR|GOSUB|GOTO|IF|NEXT|POP|RETURN|STEP|THEN|TO)\b

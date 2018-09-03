@@ -16,15 +16,23 @@ contexts:
         0: keyword.function
         1: entity.name.function
         2: variable.parameter
+
     - match: '"'
+      scope: punctuation.definition.string.begin
       push:
         - meta_scope: string.quoted.double
         - match: '"'
+          scope: punctuation.definition.string.end
           pop: true
+
     - match: (?i:shload|load|recall|save|store)
       scope: invalid.deprecated
-    - match: (?i:rem).*$
-      scope: comment.line
+    - match: (?i:rem)
+      push:
+        - meta_scope: comment.line
+        - match: '\n'
+          pop: true
+
     - match: '\d+|\d*\.\d*([eE][+-]?\d+)?'
       scope: constant.numeric
     - match: (?i:goto|onerr|on|if|then|for|to|step|next|gosub|return|pop|resume|stop|del|end|wait)

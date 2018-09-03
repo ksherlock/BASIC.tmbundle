@@ -1,0 +1,91 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: EhBASIC
+file_extensions: []
+scope: source.ehbasic
+variables:
+  ident: '[A-Za-z][A-Za-z0-9]*'
+contexts:
+  main:
+    - match: ^\d+
+      scope: entity.name.function
+
+    - match: '%[01]+\b'
+      scope: constant.numeric.binary
+    - match: '\$[0-9A-Fa-f]+\b'
+      scope: constant.numeric.hexadecimal
+    - match: '(\d+\.\d*|\.\d+|\d+)([eE][+-]?\d+)?'
+      scope: constant.numeric
+    - match: '"'
+      scope: punctuation.definition.string.begin
+      push:
+        - meta_scope: string.quoted.double
+        - match: '"'
+          scope: punctuation.definition.string.end
+          pop: true
+
+    - match: '\b(DEF\s+FN)\s*({{ident}})\b'
+      scope: meta.def.fn
+      captures:
+        0: keyword.function
+        1: entity.name.function
+
+    - match: '\bREM\b'
+      push:
+        - meta_scope: comment.line
+        - match: '\n'
+          pop: true
+
+    - match: '\b(ON)\s+(IRQ|NMI)\b'
+      captures:
+        0: keyword.command
+        1: keyword.command
+
+
+    - match: '\b(BITCLR|BITSET|CALL|DEC|DEF|DOKE|FN|INC|POKE|SWAP)\b'
+      scope: keyword.command
+
+    - match: '\b(CLEAR|DIM|LET)\b'
+      scope: keyword.variable
+
+    - match: '\b(GET|INPUT|PRINT|READ|RESTORE|DATA|RESTORE|SPC|TAB|WIDTH|NULL)\b'
+      scope: keyword.command.io
+
+    - match: '\b(DO\ELSE|FOR|GOSUB|GOTO|IF|THEN|LOOP|UNTIL|WHILE|NEXT|ON|RETIRQ|RETNMI|RETURN|STEP|STOP|END|WAIT)\b'
+      scope: keyword.control
+
+    - match: '\b(AND|EOR|OR|NOT)\b'
+      scope: keyword.operator
+
+    - match: '\b(ABS|ASC|ATN|BITTST|COS|DEEK|EXP|FRE|INT|LEN|LOG|MAX|MIN|PEEK|POS|RND|SADD|SGN|SIN|SQR|TAN|USR|VAL|VARPTR)\b'
+      scope: support.function
+
+
+    - match: '\b(BIN|HEX|LCASE|LEFT|MID|RIGHT|STR|UCASE|CHR)\$'
+      scope: support.function
+
+    - match: '\b(PI|TWOPI)\b'
+      scope: constant.support
+
+
+    - match: '\b(CONT|LIST|NEW|RUN|LOAD|SAVE)\b'
+      scope: keyword.command.immediate
+
+    - match: '\b(IRQ|NMI)\b'
+      scope: keyword.command
+      push:
+        - match: '\b(ON|OFF|CLEAR)\b'
+          scope: constant.language
+          pop: true
+        - match: '$'
+          pop: true
+        - match: '\S+'
+          scope: invalid.illegal
+          pop: true
+
+
+    - match: '\b{{ident}}\$'
+      scope: variable.string
+    - match: '\b{{ident}}\b'
+      scope: variable      
