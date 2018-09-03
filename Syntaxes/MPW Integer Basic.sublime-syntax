@@ -1,0 +1,53 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: MPW Integer BASIC
+comment: orca/integer basic with support for "named_lines"
+file_extensions:
+  - bas
+scope: source.integer-basic.mpw
+contexts:
+  main:
+    - match: '^\s*"([A-Za-z0-9_~]+)"'
+      scope: meta.function.definition
+      captures:
+        0: string.quoted.double
+        1: entity.name.function
+    - match: ^\s*\d+
+      scope: entity.name.function
+    - match: '\b(?i:call)\s+([A-Za-z0-9_~]+)'
+      scope: meta.function.call
+      captures:
+        0: keyword.control
+        1: support.function
+    - match: '"'
+      push:
+        - meta_scope: string.quoted.double
+        - match: '"'
+          pop: true
+    - match: \b(?i:rem)\b.*$
+      scope: comment.line
+    - match: \d+
+      scope: constant.numeric
+    - match: \b(?i:CALL|END|FOR|GOSUB|GOTO|IF|NEXT|POP|RETURN|STEP|THEN|TO)\b
+      scope: keyword.control
+    - match: \b(?i:DIM|LET)\b
+      scope: keyword.variable
+    - match: \b(?i:INPUT|PRINT|TAB|TEXT|TEXT80|VTAB)\b
+      scope: keyword.io
+    - match: \b(?i:ABS|RND|SGN)\b
+      scope: support.function.arithmetic
+    - match: \b(?i:ASC|LEN)\b
+      scope: support.function.string
+    - match: \b(?i:AT|COLOR|GR|HGR|HLIN|PLOT|VLIN)\b
+      scope: keyword.graphics
+    - match: \b(?i:SCRN)\b
+      scope: support.function.graphics
+    - match: \b(?i:PDL)\b
+      scope: support.function.io
+    - match: \b(?i:AND|OR|NOT)\b
+      scope: keyword.operator.logical
+    - match: \b(?i:MOD)\b
+      scope: keyword.operator.mathematical
+    - match: '[A-Za-z][A-Za-z0-9]*\$?'
+      scope: variable

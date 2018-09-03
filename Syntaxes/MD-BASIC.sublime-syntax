@@ -1,0 +1,128 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: MD-BASIC
+file_extensions:
+  - b
+scope: source.md-basic
+
+variables:
+  ident: '[A-Za-z_][A-Za-z0-9_]*'
+
+contexts:
+  main:
+    - match: "^[%A-Za-z_][A-Za-z0-9_]*(?=:)"
+      scope: entity.name.function
+
+    - match: '\b(?i:def\s+fn)\s+({{ident}})\s*[(]\s*({{ident}})\s*[)]'
+      scope: meta.def.fn
+      captures:
+        0: keyword.function
+        1: entity.name.function
+        2: variable.parameter
+
+    - match: '(\$[0-9a-fA-F]+)\b'
+      scope: constant.numeric.hex.md-basic
+    - match: '\d+|\d*\.\d*([eE][+-]?\d+)?'
+      scope: constant.numeric
+    - match: "'"
+      push:
+        - meta_scope: comment.line.md-basic
+        - match: \n
+          pop: true
+    - match: '\b(?i:rem)(?![%$])\b'
+      push:
+        - meta_scope: comment.line
+        - match: \n
+          pop: true
+    - match: "`"
+      push:
+        - meta_scope: string.quoted.raw
+        - match: "`"
+          pop: true
+    - match: '"'
+      push:
+        - meta_scope: string.quoted.double.md-basic
+        - match: '"'
+          pop: true
+        - match: '\^.'
+          scope: constant.character.escape.md-basic
+    - match: '\b(?i:goto|onerr|on|if|then|for|to|step|next|gosub|return|pop|resume|stop|del|end|wait)(?![%$])\b'
+      scope: keyword.control
+    - match: '\b((?i)do|else|endif|loop|repeat|until|wend|while)(?![%$])\b'
+      scope: keyword.control.md-basic
+    - match: '\b(?i:shload|load|recall|save|store)(?![%$])\b'
+      scope: invalid.deprecated
+    - match: '\b(?i:clear|cont|del|list|new|run)(?![%$])\b'
+      scope: keyword.control.immediate
+    - match: '\b(?i:dim|let)(?![%$])\b'
+      scope: keyword.variable
+    - match: '\b(?i:poke|call|himem|lomem|notrace|trace)(?![%$])\b'
+      scope: keyword.utility
+    - match: '\b(?i:in|input|get|read|data|restore|pr|print|text|home|htab|vtab|inverse|normal|flash|speed|tab|spc)(?![%$])\b'
+      comment: tab/spc requires ( lookahead?
+      scope: keyword.io
+    - match: \?
+      scope: keyword.io.short
+    - match: '\b(?i:def|fn)(?![%$])\b'
+      scope: keyword.function
+    - match: '\b(?i:abs|sgn|int|sqr|sin|cos|tan|atn|exp|log|rnd)(?![%$])\b'
+      scope: support.function.arithmetic
+    - match: '\b(?i:len|val|asc)(?![%$])\b'
+      scope: support.function.string
+    - match: \b(?i:left|mid|right|str|chr)\$
+      scope: support.function.string.dollar
+    - match: '\b(?i:at|gr|color|plot|hlin|vlin|hgr2|hgr|hcolor|hplot|draw|xdraw|scale|rot)(?![%$])\b'
+      scope: keyword.graphics
+    - match: '\b(?i:peek|usr|fre)(?![%$])\b'
+      scope: support.function.utility
+    - match: '\b(?i:scrn)(?![%$])\b'
+      scope: support.function.graphics
+    - match: '\b(?i:pdl|pos)(?![%$])\b'
+      scope: support.function.io
+    - match: '\b(?i:and|or|not)(?![%$])\b'
+      scope: keyword.operator.logical
+    - match: '\b(?i:true|false|__mdbasic__)(?![%$])\b'
+      scope: constant.language.md-basic
+    - match: ^\s*#\s*(include)\s+
+      captures:
+        1: keyword.control.import.include.md-basic
+      push:
+        - meta_scope: meta.preprocessor.md-basic.include
+        - match: (?=(?://|/\*))|$
+          captures:
+            1: keyword.control.import.include.md-basic
+          pop: true
+        - match: (?>\\\s*\n)
+          scope: punctuation.separator.continuation.md-basic
+        - match: '"'
+          captures:
+            0: punctuation.definition.string.begin.md-basic
+          push:
+            - meta_scope: string.quoted.double.include.md-basic
+            - match: '"'
+              captures:
+                0: punctuation.definition.string.end.md-basic
+              pop: true
+        - match: <
+          captures:
+            0: punctuation.definition.string.begin.md-basic
+          push:
+            - meta_scope: string.quoted.other.lt-gt.include.md-basic
+            - match: ">"
+              captures:
+                0: punctuation.definition.string.end.md-basic
+              pop: true
+    - match: '^\s*#\s*(define)\s*([A-Za-z_][A-Za-z_0-9]*)'
+      scope: meta.preprocessor.macro.md-basic
+      captures:
+        1: keyword.control.import.define.md-basic
+        2: entity.name.function.preprocessor.md-basic
+    - match: ^\s*#\s*(?i:declare|define|else|endif|error|if|ifdef|ifndef|include|pragma|print|reserve)\b
+      scope: meta.preprocessor
+    - match: '&\s*([A-Za-z_][A-Za-z0-9_]*)'
+      scope: support.function.ampersand
+    - match: "[A-Za-z_][A-Za-z0-9_]*[$%]?"
+      comment: uses non-greedy *? so keywords get a first shot
+      scope: variable
+

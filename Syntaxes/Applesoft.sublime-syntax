@@ -1,0 +1,59 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Applesoft
+comment: due to the parsing, order can be important (eg, notrace before not and trace)
+file_extensions:
+  - applesoft
+scope: source.applesoft
+contexts:
+  main:
+    - match: ^\d+
+      scope: entity.name.function
+    - match: '(?i:def\s*fn)\s*([A-Za-z_][A-Za-z0-9_]*)\s*[(]\s*([A-Za-z_][A-Za-z0-9_]*)\s*[)]'
+      scope: meta.def.fn
+      captures:
+        0: keyword.function
+        1: entity.name.function
+        2: variable.parameter
+    - match: '"'
+      push:
+        - meta_scope: string.quoted.double
+        - match: '"'
+          pop: true
+    - match: (?i:shload|load|recall|save|store)
+      scope: invalid.deprecated
+    - match: (?i:rem).*$
+      scope: comment.line
+    - match: '\d+|\d*\.\d*([eE][+-]?\d+)?'
+      scope: constant.numeric
+    - match: (?i:goto|onerr|on|if|then|for|to|step|next|gosub|return|pop|resume|stop|del|end|wait)
+      scope: keyword.control
+    - match: (?i:clear|cont|del|list|new|run)
+      scope: keyword.control.immediate
+    - match: (?i:dim|let)
+      scope: keyword.variable
+    - match: (?i:poke|call|himem:|lomem:|notrace|trace)
+      scope: keyword.utility
+    - match: (?i:in#|input|get|read|data|restore|pr#|print|\?|text|home|htab|vtab|inverse|normal|flash|speed=|tab|spc)
+      comment: tab/spc requires ( lookahead?
+      scope: keyword.io
+    - match: (?i:def|fn)
+      scope: keyword.function
+    - match: (?i:abs|sgn|int|sqr|sin|cos|tan|atn|exp|log|rnd)
+      scope: support.function.arithmetic
+    - match: (?i:len|left\$|mid\$|right\$|str\$|val|chr\$|asc)
+      scope: support.function.string
+    - match: (?i:at|gr|color=|plot|hlin|vlin|hgr2|hgr|hcolor=|hplot|draw|xdraw|scale=|rot=)
+      scope: keyword.graphics
+    - match: (?i:peek|usr|fre)
+      scope: support.function.utility
+    - match: (?i:scrn)
+      scope: support.function.graphics
+    - match: (?i:pdl|pos)
+      scope: support.function.io
+    - match: (?i:and|or|not)
+      scope: keyword.operator.logical
+    - match: '[A-Za-z][A-Za-z0-9]*?\s*[$%]?'
+      comment: uses non-greedy *? so keywords get a first shot
+      scope: variable

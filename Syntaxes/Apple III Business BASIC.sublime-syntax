@@ -1,0 +1,85 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Apple III Business  BASIC
+file_extensions: []
+scope: source.business-basic
+contexts:
+  main:
+    - match: ^\s*\d+
+      scope: entity.name.function
+    - match: '\b(?i:DEF\s+FN)\s*([A-Za-z_][A-Za-z0-9_]*)\b'
+      scope: meta.def.fn
+      captures:
+        0: keyword.function
+        1: entity.name.function
+    - match: '"'
+      push:
+        - meta_scope: string.quoted.double
+        - match: '"'
+          pop: true
+    - match: \b(?i:REM)\b.*$
+      comment: "may end at : ?"
+      scope: comment.line
+    - match: '(\d+\.\d*|\.\d+|\d+)([eE][+-]?\d+)?'
+      scope: constant.numeric
+    - match: '\b(?i:FN)\s*([A-Za-z][A-Za-z0-9.]*)\s*(?=\()'
+      scope: meta.fn
+      captures:
+        0: keyword.function
+        1: variable.function
+    - match: '\b(?i:PERFORM)\s+([A-Za-z][A-Za-z0-9.]*)(?=\()'
+      scope: meta.perform
+      captures:
+        0: keyword.external
+        1: support.function
+    - match: '\b(?i:EXFN%?)(\.)([A-Za-z][A-Za-z0-9.]*)(?=\()'
+      scope: meta.exfn
+      captures:
+        0: keyword.external
+        2: support.function
+    - match: '\b(?i:INVOKE|PERFORM|EXFN)(?![$%&])\b'
+      scope: keyword.external
+    - match: \b(?i:EXFN)%
+      scope: keyword.external
+    - match: '(?i:ON|OFF)\s+(?i:EOF)#'
+      comment: '# screws up \b'
+      scope: keyword.control
+    - match: '\b(?i:ON|OFF)\s+(?i:ERR|KBD)(?![$%&])\b'
+      scope: keyword.control
+    - match: '\b(?i:FOR|NEXT|STEP|TO|POP|RETURN|ELSE|IF|GOTO|GOSUB|THEN|ON|OFF|RESUME|TRACE|NOTRACE)(?![$%&])\b'
+      scope: keyword.control
+    - match: '\b(?i:DATA|GET|INPUT|READ|RESTORE)(?![$%&])\b'
+      scope: keyword.input
+    - match: '\b(?i:CLOSE|INPUT|OPEN|OUTPUT|PRINT|READ|WRITE)#'
+      scope: keyword.file
+    - match: '\b(?i:CAT|CATALOG|CLOSE|CREATE|DELETE|EXEC|LOCK|RENAME|UNLOCK)(?![$%&])\b'
+      scope: keyword.file
+    - match: '\b(?i:AS)\s(?i:EXTENSION|INPUT|OUTPUT)(?![$%&])\b'
+      scope: keyword.file.as
+    - match: \b(?i:REC|TYP)(?=\()
+      scope: support.function.file
+    - match: '\b(?i:DEL|HOME|INVERSE|LIST|NORMAL|PRINT|\?|WINDOW|IMAGE|USING)(?![$%&])\b'
+      scope: keyword.screen
+    - match: \b(?i:SPC|TAB)(?=\()
+      scope: support.function.screen
+    - match: '\b(?i:DIM|LET|SWAP)(?![$%&])\b'
+      scope: keyword.variable
+    - match: '\b(?i:CHAIN|CLEAR|CONT|END|LOAD|NEW|RUN|SAVE|STOP)(?![$%&])\b'
+      scope: keyword.utility
+    - match: '\b(?i:CONV)[$%&]?(?=\()'
+      scope: support.function.conversion
+    - match: \b(?i:ASC|CHR\$|HEX\$|INSTR|LEFT\$|LEN|MID\$|RIGHT\$|STR\$|SUB\$|TEN|VAL)(?=\()
+      scope: support.function.string
+    - match: \b(?i:ABS|EXP|INT|LOG|RND|SGN|SQR|ATN|COS|SIN|TAN|SCALE)(?=\()
+      scope: support.function.arithmetic
+    - match: \b(?i:DIV|MOD)\b
+      scope: keyword.operator.mathematical
+    - match: '\b(?i:AND|OR|NOT)(?![$%&])\b'
+      scope: keyword.operator.logical
+    - match: '\b(?i:EOF|ERR|ERRLIN|FRE|HPOS|INDENT|KBD|OUTREC|VPOS)(?![$%&])\b'
+      scope: support.variable
+    - match: \b(?i:PREFIX)\$
+      scope: support.variable.dollar
+    - match: "[A-Za-z][A-Za-z0-9.]*[$%&]?"
+      scope: variable
