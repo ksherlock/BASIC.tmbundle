@@ -46,7 +46,7 @@ contexts:
 
         - match: '\^.'
           scope: constant.character.escape.md-basic
-        - match: '$'
+        - match: '\n'
           scope: invalid.illegal
           pop: true
         - match: '"'
